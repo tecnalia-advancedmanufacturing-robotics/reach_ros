@@ -43,6 +43,7 @@ add_library(
   src/utils.cpp
   # Evaluator
   src/evaluation/manipulability_moveit.cpp
+  src/evaluation/Valvulas_TorqueEval_moveit.cpp
   src/evaluation/joint_penalty_moveit.cpp
   src/evaluation/distance_penalty_moveit.cpp
   # IK Solver

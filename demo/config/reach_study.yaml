@@ -17,14 +17,9 @@ ik_solver:
 evaluator:
   name: MultiplicativeEvaluator
   plugins:
-    - name: ManipulabilityMoveIt
+    - name: ValvulasTorqueEvalMoveit
       planning_group: *planning_group
-    - name: DistancePenaltyMoveIt
-      planning_group: *planning_group
-      distance_threshold: 0.025
-      exponent: 2
-      collision_mesh_filename: *collision_mesh_filename
-      touch_links: []
+
 
 display:
   name: ROSDisplay
