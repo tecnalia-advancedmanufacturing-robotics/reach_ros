@@ -23,6 +23,12 @@
 #include <yaml-cpp/yaml.h>
 #include <cmath>
 
+#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
+#include <geometry_msgs/Point.h>
+#include <tf2/LinearMath/Quaternion.h>
+#include <tf2_ros/transform_broadcaster.h>
+#include <geometry_msgs/TransformStamped.h>
+
 static std::vector<Eigen::Index> getJacobianRowSubset(const YAML::Node& config, const std::string& key = "jacobian_row_"
                                                                                                          "subset")
 {
@@ -94,6 +100,21 @@ double ValvulasTorqueEvalMoveit::calculateScore(const std::map<std::string, doub
   std::vector<double> pose_subset = utils::transcribeInputMap(pose, jmg_->getActiveJointModelNames());
   state.setJointGroupPositions(jmg_, pose_subset);
   state.update();
+  //ROS_INFO("pose_subset size: %ld", pose_subset.size());
+  //Eigen::Map<const Eigen::ArrayXd> min(joints_min_.data(), joints_min_.size());
+  //Eigen::Map<const Eigen::ArrayXd> max(joints_max_.data(), joints_max_.size());
+  //Eigen::Map<const Eigen::ArrayXd> joints(pose_subset.data(), pose_subset.size());
+  //Eigen::VectorXd score = 4 * ((joints - min) * (max - joints)) / (max - min).pow(2);
+  //return score.mean();
+
+//compute fk for the robot state
+    //robot_state->setJointGroupActivePositions(joint_model_group, planned_joint_state.position);
+    //state.updateLinkTransforms();
+    //const Eigen::Isometry3d& end_effector_state = state.getFrameTransform(jmg_->getEndEffectorLink());
+    //geometry_msgs::Pose planned_eef_pose;
+    //tf2::poseEigenToMsg(end_effector_state, planned_eef_pose);//pose conversion from Eigen to pose msgs
+
+
 
   // Get the Jacobian matrix
   Eigen::MatrixXd jacobian = state.getJacobian(jmg_);
@@ -113,9 +134,7 @@ double ValvulasTorqueEvalMoveit::calculateScore(const std::map<std::string, doub
   Eigen::JacobiSVD<Eigen::MatrixXd> svd(jacobian);
   Eigen::MatrixXd singular_values = svd.singularValues();
 
-
-
-
+  
   return singular_values.array().prod();
   //return calculateScore(singular_values);
 }

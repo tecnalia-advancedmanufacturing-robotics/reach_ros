@@ -17,7 +17,6 @@
 #define REACH_ROS_EVALUATION_VALVULASTORQUEEVAL_EVALUATION_H
 
 #include <Eigen/Dense>
-
 #include <reach/interfaces/evaluator.h>
 
 namespace moveit
